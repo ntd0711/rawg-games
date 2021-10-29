@@ -1,8 +1,11 @@
 import { Container, createTheme, Paper } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { genresApi } from "../../../api/genresApi";
 import { useGetGenresListQuery } from "../../../services/genresApi";
+import { getGenreList } from "../gamesSlice";
 import FilterSearch from "./FilterSearch";
 import FilterTag from "./FilterTag";
 
@@ -22,10 +25,26 @@ const useStyles = makeStyles({
 
 const FiltersGame = ({ filters, onChange }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(true);
+  // const { data, error, isFetching } = useGetGenresListQuery();
 
-  const { data, error, isFetching } = useGetGenresListQuery();
+  // if (isFetching) return "loading...";
 
-  if (isFetching) return "loading...";
+  const genreList = useSelector((state) => state.games.genreList["genreList"]);
+
+  useEffect(() => {
+    (async () => {
+      setLoading(true);
+      try {
+        const action = getGenreList();
+        dispatch(action);
+      } catch (error) {
+        console.log("failed to fetch genre list: ", error);
+      }
+      setLoading(false);
+    })();
+  }, [dispatch]);
 
   const handleTagsChange = (formValues) => {
     if (onChange) onChange(formValues);
@@ -35,7 +54,7 @@ const FiltersGame = ({ filters, onChange }) => {
     if (onChange) onChange(searchTerm);
   };
 
-  const { results: genreList } = data;
+  // if (loading) return "loading...";
 
   return (
     <Box className={classes.root}>

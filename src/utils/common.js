@@ -1,3 +1,5 @@
+import { useSelector } from "react-redux";
+
 export const renderIcon = (name) => {
   //   const playstation = <ion-icon name="logo-playstation"></ion-icon>;
   //   const xbox = <ion-icon name="logo-xbox"></ion-icon>;

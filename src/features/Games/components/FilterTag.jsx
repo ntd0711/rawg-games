@@ -7,7 +7,6 @@ const FilterTag = ({ filters, genreList = [], onChange = null }) => {
     if (!onChange) return;
 
     const formValues = { genres };
-
     onChange(formValues);
   };
   return (

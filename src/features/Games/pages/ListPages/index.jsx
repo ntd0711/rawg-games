@@ -1,20 +1,19 @@
 import { Box } from "@mui/system";
 import queryString from "query-string";
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import GetGameList from "../../../../hooks/GetGameList";
 import { useGetAllGamesQuery } from "../../../../services/gamesApi";
 import FiltersGame from "../../components/FiltersGame";
 import GameList from "../../components/GameList";
 import { gamesApi } from "../../../../services/gamesApi";
+import { getGameList } from "../../gamesSlice";
 
 const ListPages = () => {
   const history = useHistory();
   const location = useLocation();
   const dispatch = useDispatch();
-
-  // const [totalGameList, setTotalGameList] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const queryParams = useMemo(() => {
     const params = queryString.parse(location.search);
@@ -24,35 +23,35 @@ const ListPages = () => {
     };
   }, [location.search]);
 
-  // const gamesStore = useSelector((state) => state.games.gameList);
-  // console.log(gamesStore);
+  const gamesStore = useSelector((state) => state.games.gameList);
+  const searchParams = queryString.stringify(queryParams);
+  const gameList = gamesStore[searchParams]?.data;
+  const currentPage = gamesStore[searchParams]?.page;
 
-  // const result = gamesStore?.find(
-  //   (item) => item.params === queryString.stringify(queryParams)
-  // );
-  // console.log(result);
+  useEffect(() => {
+    if (gameList) return;
+    setLoading(true);
+    try {
+      const action = getGameList(queryParams);
+      dispatch(action);
+    } catch (error) {
+      console.log(error);
+    }
+    setLoading(false);
+  }, [queryParams, dispatch, gameList]);
 
-  // useEffect(() => {
-  //   if (result) return;
-  //   try {
-  //     setIsFetching(true);
+  // setLoading(gameList?.length > 0);
+  // if (isFetching) return "Loading...";
 
-  //     const action = getGameList(queryParams);
-  //     dispatch(action);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  //   setIsFetching(false);
-  // }, [queryParams, dispatch, result]);
+  // -------------------------------------------------------------------
 
-  // const gameList = result?.results;
+  // const { data, error, isFetching } = useGetAllGamesQuery(queryParams);
 
-  const { data, error, isFetching } = useGetAllGamesQuery(queryParams);
+  // const gameList = data?.results;
 
-  const gameList = data?.results;
-
-  const state = useSelector((state) => state.gamesApi);
-  console.log(state);
+  // const state = useSelector((state) => state.gamesApi);
+  // console.log(state);
+  // -------------------------------------------------------------------\
   const handleFiltersChange = (formValues) => {
     const newFilters = {
       ...queryParams,
@@ -64,24 +63,16 @@ const ListPages = () => {
     });
   };
 
-  const handleLoadMore = () => {
-    const newFilters = {
-      ...queryParams,
-      page: Number.parseInt(queryParams.page) + 1 || 2,
-    };
-    history.push({
-      pathname: history.location.pathname,
-      search: queryString.stringify(newFilters),
-    });
-  };
-
   return (
     <Box>
       <FiltersGame filters={queryParams} onChange={handleFiltersChange} />
-      {isFetching && "loading..."}
-      {!isFetching && (
-        <GameList gameList={gameList} onLoadMore={handleLoadMore} />
-      )}
+
+      <GameList
+        gameList={gameList}
+        queryParams={queryParams}
+        loading={loading}
+        currentPage={currentPage}
+      />
     </Box>
   );
 };

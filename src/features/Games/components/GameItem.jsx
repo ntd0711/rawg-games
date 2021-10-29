@@ -18,7 +18,7 @@ const useStyles = makeStyles({
 
   cardMedia: {
     width: "100%",
-    height: "200px",
+    height: "150px",
   },
   icon: {
     display: "inline-block",
