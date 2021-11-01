@@ -6,15 +6,11 @@ import {
   Paper,
 } from "@mui/material";
 import { makeStyles } from "@mui/styles";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
-import queryString from "query-string";
-
-import GameItem from "./GameItem";
-import { useGetAllGamesQuery } from "../../../services/gamesApi";
-import useGetGameList from "../../../hooks/useGetGameList";
 import { Box } from "@mui/system";
-import useGetCurrPageByParams from "../../../hooks/useGetCurrPageByParams";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import useGetCurrPageByParams from "../../../../hooks/useGetCurrPageByParams";
+import useGetGameList from "../../../../hooks/useGetGameList";
+import GameItem from "./GameItem";
 import SkeletonGameList from "./SkeletonGameList";
 
 const theme = createTheme();
@@ -39,7 +35,7 @@ const useStyles = makeStyles({
   },
 });
 
-const GameList = ({ gameList, queryParams }) => {
+const GameList = ({ gameList, queryParams, loading }) => {
   const classes = useStyles();
   const currentPage = useGetCurrPageByParams(queryParams) || 1;
 
@@ -50,10 +46,7 @@ const GameList = ({ gameList, queryParams }) => {
     setPageNumber(currentPage);
   }, [queryParams, currentPage]);
 
-  // console.log(queryString.stringify(queryParams));
-  // console.log(pageNumber);
-
-  const { error, hasMore, loading } = useGetGameList(queryParams, pageNumber);
+  const {} = useGetGameList(queryParams, pageNumber);
 
   const observer = useRef();
   const lastGameElementRef = useCallback(
@@ -61,13 +54,14 @@ const GameList = ({ gameList, queryParams }) => {
       if (loading) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (entries[0].isIntersecting) {
           setPageNumber((prev) => prev + 1);
+          console.log("visible");
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading, hasMore]
+    [loading]
   );
   console.log(loading);
   return (
@@ -83,7 +77,7 @@ const GameList = ({ gameList, queryParams }) => {
                   item
                   key={game.id}
                   xs={12}
-                  sm={6}
+                  sm={4}
                   md={3}
                 >
                   <GameItem game={game} />
@@ -91,13 +85,18 @@ const GameList = ({ gameList, queryParams }) => {
               );
             } else {
               return (
-                <Grid item key={game.id} xs={12} sm={6} md={3}>
+                <Grid item key={game.id} xs={12} sm={4} md={3}>
                   <GameItem game={game} />
                 </Grid>
               );
             }
           })}
         </Grid>
+        {loading && (
+          <Box>
+            <CircularProgress className={classes.circleLoading} />
+          </Box>
+        )}
       </Paper>
     </Container>
   );

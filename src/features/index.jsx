@@ -10,7 +10,7 @@ const GamesFeatures = () => {
   return (
     <Switch>
       <Route path={url} component={ListPages} exact />
-      <Route path={`${url}/:gameId`} component={DetailsPage} exact />
+      <Route path={`${url}/:slug`} component={DetailsPage} exact />
       <Route component={NotFound} />
     </Switch>
   );

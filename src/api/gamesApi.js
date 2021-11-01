@@ -8,7 +8,13 @@ export const gamesApi = {
     });
   },
 
-  getById(id) {
-    return axiosClient.get(`/games/${id}`, { params: { key: API_KEY } });
+  getById(slug) {
+    return axiosClient.get(`/games/${slug}`, { params: { key: API_KEY } });
+  },
+
+  getScreenShots(slug) {
+    return axiosClient.get(`/games/${slug}/screenshots`, {
+      params: { key: API_KEY },
+    });
   },
 };

@@ -8,7 +8,8 @@ import {
 import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
 import React from "react";
-import { renderIcon } from "../../../utils/index";
+import { useHistory, useRouteMatch } from "react-router";
+import { renderIcon } from "../../../../utils/index";
 
 const theme = createTheme();
 const useStyles = makeStyles({
@@ -35,6 +36,14 @@ const useStyles = makeStyles({
 
 const GameItem = ({ game }) => {
   const classes = useStyles();
+  const history = useHistory();
+  const { path } = useRouteMatch();
+
+  const handleClick = () => {
+    history.push({
+      pathname: `${path}/${game.slug}`,
+    });
+  };
 
   return (
     <Card className={classes.card}>
@@ -53,7 +62,11 @@ const GameItem = ({ game }) => {
             </Box>
           ))}
         </Box>
-        <Typography className={classes.title} variant="h5" component="div">
+        <Typography
+          onClick={handleClick}
+          className={classes.title}
+          variant="h6"
+        >
           {game.name}
         </Typography>
         <Typography variant="body2" color="text.secondary"></Typography>

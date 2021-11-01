@@ -2,7 +2,7 @@ import { Button } from "@mui/material";
 import { Box } from "@mui/system";
 import React from "react";
 import { useForm } from "react-hook-form";
-import InputField from "../../../components/inputField";
+import InputField from "../../../../components/inputField";
 
 const SearchForm = ({ onSubmit }) => {
   const { handleSubmit, reset, control } = useForm({

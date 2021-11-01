@@ -3,9 +3,7 @@ import { makeStyles } from "@mui/styles";
 import { Box } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { genresApi } from "../../../api/genresApi";
-import { useGetGenresListQuery } from "../../../services/genresApi";
-import { getGenreList } from "../gamesSlice";
+import { getGenreList } from "../../gamesSlice";
 import FilterSearch from "./FilterSearch";
 import FilterTag from "./FilterTag";
 
