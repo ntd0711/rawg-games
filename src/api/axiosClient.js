@@ -1,6 +1,6 @@
 import axios from "axios";
 import { RAPID_KEY } from "../constants";
-const baseURL = "https://zrawg-video-games-database.p.rapidapi.com";
+const baseURL = "https://rawg-video-games-database.p.rapidapi.com";
 
 const axiosClient = axios.create({
   baseURL,
