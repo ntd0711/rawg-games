@@ -1,0 +1,22 @@
+.inputField {
+  outline-style: none;
+  border: none;
+  padding: 1.2rem;
+  font-size: 1.5rem;
+  width: 100%;
+  background-color: var(--color-graphite);
+  color: var(--color-grey);
+  border-radius: 0.4rem;
+  -webkit-appearance: none;
+}
+
+.textError {
+  color: #ed4956;
+  font-size: 1.24rem;
+}
+
+@include media-query($desktop) {
+  .inputField {
+    font-size: 1.4rem;
+  }
+}

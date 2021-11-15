@@ -1,10 +1,7 @@
-import { Box } from "@mui/system";
 import queryString from "query-string";
-import React, { useMemo, useRef, useState, useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router";
-import { useGetAllGamesQuery } from "../../../../services/gamesApi";
-import { gamesApi } from "../../../../services/gamesApi";
 import FiltersGame from "../../components/GameList/FiltersGame";
 import GameList from "../../components/GameList/GameList";
 import { getGameList } from "../../gamesSlice";
@@ -27,11 +24,11 @@ const ListPages = () => {
   }, [location.search]);
 
   const gamesStore = useSelector((state) => state.games.gameList);
-  const searchParams = queryString.stringify(queryParams);
+  const collection = queryString.stringify(queryParams);
 
   const loading = gamesStore.loading;
-  const gameList = gamesStore[searchParams]?.data;
-  const currentPage = gamesStore[searchParams]?.page;
+  const gameList = gamesStore[collection]?.data;
+  const currentPage = gamesStore[collection]?.page;
 
   useEffect(() => {
     if (gameList) return;
@@ -44,18 +41,6 @@ const ListPages = () => {
     }
   }, [queryParams, dispatch, gameList]);
 
-  // setLoading(gameList?.length > 0);
-  // if (isFetching) return "Loading...";
-
-  // -------------------------------------------------------------------
-
-  // const { data, error, isFetching } = useGetAllGamesQuery(queryParams);
-
-  // const gameList = data?.results;
-
-  // const state = useSelector((state) => state.gamesApi);
-  // console.log(state);
-  // -------------------------------------------------------------------\
   const handleFiltersChange = (formValues) => {
     // const newFilters = {
     //   ...queryParams,
@@ -68,7 +53,7 @@ const ListPages = () => {
   };
 
   return (
-    <Box>
+    <div className="main__container">
       <FiltersGame filters={queryParams} onChange={handleFiltersChange} />
 
       <GameList
@@ -77,7 +62,7 @@ const ListPages = () => {
         loading={loading}
         currentPage={currentPage}
       />
-    </Box>
+    </div>
   );
 };
 

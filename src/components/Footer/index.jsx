@@ -2,9 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <div>
-      <h2>Footer</h2>
-    </div>
+    <div className="footer" style={{ height: "20rem", width: "100%" }}></div>
   );
 };
 

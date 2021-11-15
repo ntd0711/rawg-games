@@ -1,11 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { gamesApi } from "../services/gamesApi";
-import { genresApi } from "../services/genresApi";
 import gamesReducer from "../features/Games/gamesSlice";
+import usersReducer from "../features/Auth/usersSlice";
+
 export const store = configureStore({
   reducer: {
-    [gamesApi.reducerPath]: gamesApi.reducer,
-    [genresApi.reducerPath]: genresApi.reducer,
     games: gamesReducer,
+    users: usersReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["authen/fulfilled"],
+      },
+    }),
 });

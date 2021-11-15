@@ -1,48 +1,19 @@
-import { Typography } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Box } from "@mui/system";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import DOMPurify from "dompurify";
-import { createTheme } from "@mui/material";
 import dayjs from "dayjs";
 import localizedFormat from "dayjs/plugin/localizedFormat";
 import relativeTime from "dayjs/plugin/relativeTime";
-
-const theme = createTheme();
-const useStyles = makeStyles({
-  root: {},
-  infoBox: {},
-  title: { fontWeight: "700" },
-  content: {},
-  link: { color: "#000" },
-  gameShowMore: {
-    cursor: "pointer",
-    fontStyle: "italic",
-    color: "hsl(0 0% 40%)",
-    "&:hover": {
-      textDecoration: "underline",
-    },
-  },
-});
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 const GameInfo = ({ gameInfo = {} }) => {
-  const classes = useStyles();
   const [collapsed, setCollapsed] = useState(true);
 
   const {
-    id,
-    backgroundImage,
     name,
     released,
-    metacritic,
     genres,
     website,
-    descriptionRaw,
     alternative_names,
     description_raw,
-    clip,
-    tags,
   } = gameInfo;
 
   dayjs.extend(localizedFormat);
@@ -58,83 +29,64 @@ const GameInfo = ({ gameInfo = {} }) => {
     : `${description_raw}`;
 
   return (
-    <Box>
-      <Box mb={2}>
-        <Typography variant="h4">{name}</Typography>
-        <Box mt={-1}>
-          <Typography fontStyle="italic" component="span" variant="subtitle1">
-            {alternative_names?.join(", ")}
-          </Typography>
-        </Box>
-      </Box>
+    <div className="gameDetails__info">
+      <h2 className="gameDetails__title">
+        {name}
+        <p className="gameDetails__subtitle">
+          {" "}
+          {alternative_names?.join(", ")}
+        </p>
+      </h2>
 
-      <Box mb={2}>
-        <Typography sx={{ fontWeight: "700" }} variant="subtitle2">
-          Released Date
-        </Typography>
-        <Typography sx={{ mt: "-8px" }} variant="subtitle1">
-          {releasedDate}
-        </Typography>
-      </Box>
+      <h3 className="gameDetails__released">
+        Released Date
+        <p>{releasedDate}</p>
+      </h3>
 
-      <Box mb={2}>
-        <Typography sx={{ fontWeight: "700" }} variant="subtitle2">
-          Genres
-        </Typography>
-        <Box mt={-1}>
+      <h3 className="gameDetails__genres">
+        Genres
+        <div>
           {genres?.map((genre, index) => (
-            <Typography component="span" variant="subtitle1" key={genre.id}>
-              {genres.length === index + 1 ? (
-                <Link
-                  className={classes.link}
-                  to={`/games?genres=${genre.slug}`}
-                >
-                  {genre.name}
-                </Link>
-              ) : (
-                <Link
-                  className={classes.link}
-                  to={`/games?genres=${genre.slug}`}
-                >
-                  {genre.name},{" "}
-                </Link>
-              )}
-            </Typography>
+            <span key={genre.id}>
+              {index !== 0 && ", "}
+              <Link
+                className="gameDetails__Link"
+                to={`/games?genres=${genre.slug}`}
+              >
+                {genre.name}
+              </Link>
+            </span>
           ))}
-        </Box>
-      </Box>
+        </div>
+      </h3>
 
-      <Box mb={2}>
-        <Typography sx={{ fontWeight: "700" }} variant="subtitle2">
-          Home Page
-        </Typography>
-        <Typography sx={{ mt: "-8px" }} variant="subtitle1">
+      <h3 className="gameDetails__homepage">
+        Home Page
+        <p>
           <a
-            className={classes.link}
+            className="gameDetails__Link"
             target="_blank"
             rel="noreferrer"
             href={`${website}`}
           >
             {website}
           </a>
-        </Typography>
-      </Box>
+        </p>
+      </h3>
 
-      <Box mb={2}>
-        <Typography sx={{ fontWeight: "700" }} variant="subtitle2">
-          Description
-        </Typography>
-        <Typography sx={{ lineHeight: "25.8px" }} variant="subtitle1">
+      <h3 className="gameDetails__description">
+        Description
+        <p>
           {collapsedDescription}
           <span
             onClick={() => setCollapsed((prev) => !prev)}
-            className={classes.gameShowMore}
+            className="readMore"
           >
             {showMoreText}
           </span>
-        </Typography>
-      </Box>
-    </Box>
+        </p>
+      </h3>
+    </div>
   );
 };
 

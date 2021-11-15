@@ -1,0 +1,37 @@
+body {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  min-height: 100vh;
+  font-weight: 400;
+}
+
+.app {
+  max-width: 1200px;
+  padding: 0 3rem;
+}
+
+.main__container {
+  display: grid;
+  justify-content: center;
+  @include media-query($tablet) {
+    grid-template-columns: repeat(1, minmax(25rem, 40rem));
+  }
+}
+
+.gameContainer {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(25rem, 40rem));
+  gap: 2rem;
+  padding-bottom: 8rem;
+  position: relative;
+  justify-content: center;
+  @include media-query($desktop) {
+    grid-template-columns: repeat(3, minmax(25rem, 40rem));
+  }
+  @include media-query($laptop) {
+    grid-template-columns: repeat(2, minmax(25rem, 40rem));
+  }
+  @include media-query($tablet) {
+    grid-template-columns: repeat(1, minmax(25rem, 40rem));
+  }
+}

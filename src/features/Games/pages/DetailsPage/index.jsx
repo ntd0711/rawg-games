@@ -1,30 +1,25 @@
-import { Container, createTheme, Grid } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Box, maxWidth } from "@mui/system";
+import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useRouteMatch } from "react-router";
-import GameInfo from "../../components/GameDetails/GameInfo";
-import GameThumbnails from "../../components/GameDetails/GameThumnails";
+import { useHistory, useRouteMatch } from "react-router";
+import Footer from "../../../../components/Footer";
+import Loading from "../../../../components/Loading";
+import Overlay from "../../../../components/Overlay";
+import { toggleLike } from "../../../Auth/usersThunks";
 import GameImages from "../../components/GameDetails/GameImages";
-import { getGameDetails } from "../../gamesSlice";
+import GameInfo from "../../components/GameDetails/GameInfo";
 import GameListTag from "../../components/GameDetails/GameListTag";
-
-const theme = createTheme();
-const useStyles = makeStyles({
-  root: {
-    marginTop: theme.spacing(4),
-    "&.MuiContainer-root": { maxWidth: "1000px" },
-  },
-  bottom: { marginTop: theme.spacing(6) },
-});
+import GameThumbnails from "../../components/GameDetails/GameThumnails";
+import { getGameDetails } from "../../gamesSlice";
 
 const DetailsPage = () => {
-  const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
   const {
     params: { slug },
   } = useRouteMatch();
+  const likes = useSelector((state) => state.users.users.likes);
+  const isAuthenticated = useSelector((state) => state.users.users.currentUser);
 
   const listGameInfo = useSelector((state) => state.games.gameDetails);
   const gameInfo = listGameInfo[slug]?.data;
@@ -33,35 +28,53 @@ const DetailsPage = () => {
 
   useEffect(() => {
     if (gameInfo) return;
-
-    const action = getGameDetails(slug);
-    dispatch(action);
+    (async () => {
+      try {
+        const result = await dispatch(getGameDetails(slug));
+        unwrapResult(result);
+      } catch (error) {
+        console.log(error);
+      }
+    })();
   }, [slug, dispatch, gameInfo, screenShots]);
 
-  if (!gameInfo) return "loading...";
+  if (!gameInfo) return <Loading />;
+  const { background_image, id, name, parent_platforms, tags } = gameInfo;
+
+  const liked = likes[id];
+
+  const handleToggleLike = async () => {
+    try {
+      if (isAuthenticated) {
+        const action = toggleLike({ id, game: !liked ? gameInfo : null });
+
+        dispatch(action);
+      } else {
+        history.push("/signin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <Container className={classes.root}>
-      <Grid container spacing={4}>
-        <Grid item xs={12} sm={5.5} md={5.5}>
-          <GameThumbnails image={gameInfo?.background_image} />
-        </Grid>
-        <Grid item xs={12} sm={6.5} md={6.5}>
-          <GameInfo gameInfo={gameInfo} loading={loading} />
-        </Grid>
-      </Grid>
+    <div className="main__gameDetails">
+      <Overlay />
+      <div className="gameDetails">
+        <GameThumbnails
+          liked={liked}
+          toggleLike={handleToggleLike}
+          image={background_image}
+        />
+        <GameInfo gameInfo={gameInfo} loading={loading} />
+      </div>
 
-      <Box className={classes.bottom}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={10} md={10}>
-            <GameImages screenShots={screenShots} loading={loading} />
-          </Grid>
-          <Grid item xs={12} sm={2} md={2}>
-            <GameListTag tags={gameInfo?.tags} loading={loading} />
-          </Grid>
-        </Grid>
-      </Box>
-    </Container>
+      <div className="gameSub">
+        <GameImages screenShots={screenShots} loading={loading} />
+        <GameListTag tags={tags} loading={loading} />
+      </div>
+      <Footer />
+    </div>
   );
 };
 

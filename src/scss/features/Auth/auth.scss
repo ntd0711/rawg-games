@@ -1,0 +1,63 @@
+.auth__form {
+  max-width: 40rem;
+  margin: 4rem auto 0;
+  display: grid;
+  row-gap: 1rem;
+  & > h2 {
+    font-size: 2.2rem;
+    font-weight: inherit;
+    margin-bottom: 1rem;
+  }
+  & > button {
+    padding: 0.6rem;
+    height: 3.4rem;
+    margin-top: 1rem;
+    font-size: 1.6rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.switch__form {
+  font-size: 1.4rem;
+  margin-right: 0.3rem;
+}
+
+.account__error {
+  color: var(--color-red);
+  font-size: 1.5rem;
+}
+
+.switch__form-link {
+  color: var(--color-white);
+}
+.loading__auth {
+  margin-top: 0.4rem;
+  margin-left: 1rem;
+}
+
+@include media-query($desktop) {
+  .auth__form {
+    & > h2 {
+      font-size: 2rem;
+    }
+    & > button {
+      font-size: 1.5rem;
+    }
+  }
+  .switch__form {
+    font-size: 1.3rem;
+    margin-right: 0.3rem;
+  }
+}
+
+@include media-query($laptop) {
+  .auth__form {
+    & > h2 {
+      font-size: 1.8rem;
+    }
+    & > button {
+      font-size: 1.5rem;
+    }
+  }
+}

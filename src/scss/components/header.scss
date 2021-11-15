@@ -1,0 +1,166 @@
+.header {
+  height: 10rem;
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+  &__logo {
+    font-size: 3.8rem;
+    margin-top: 0.8rem;
+    font-weight: 300;
+  }
+  &__search {
+    margin-left: 5rem;
+    margin-right: auto;
+    flex: 0 0 40%;
+    & form {
+      display: flex;
+      align-items: center;
+      background-color: var(--color-graphite);
+      border-radius: 2rem;
+      overflow: hidden;
+    }
+  }
+  &__input {
+    width: 100%;
+    padding: 1rem;
+    border: none;
+    background-color: var(--color-graphite);
+    outline-style: none;
+    color: var(--color-grey);
+    font-size: 1.6rem;
+  }
+  &__iconSearch {
+    margin: 0.2rem 0 0 1.4rem;
+    font-size: 1.2rem;
+    color: var(--color-grey);
+  }
+}
+
+.login__btn {
+  font-size: 1.4rem;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+.singup__btn {
+  font-size: 1.4rem;
+}
+.logout__btn {
+  font-size: 1.9rem;
+  cursor: pointer;
+  margin-left: 1.4rem;
+  margin-top: 0.6rem;
+  &:hover {
+    color: var(--color-grey);
+  }
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  padding: 0.5rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &__avatar {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 0.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &-text {
+      background-color: #fff;
+      padding: 3rem;
+      color: #000;
+    }
+  }
+
+  &__name {
+    font-size: 1.4rem;
+    &:hover {
+      color: var(--color-grey);
+    }
+    @include media-query($laptop) {
+      font-size: 1.06rem;
+    }
+  }
+}
+
+@include media-query($desktop) {
+  .header {
+    &__input {
+      font-size: 1.33rem;
+    }
+    &__iconSearch {
+      font-size: 1rem;
+    }
+    &__search {
+      margin-left: 5rem;
+      margin-right: auto;
+      flex: 0 0 60%;
+    }
+  }
+  .userInfo__name {
+    font-size: 1.16rem;
+  }
+
+  .login__btn {
+    font-size: 1.2rem;
+    margin-right: 0.4rem;
+  }
+  .singup__btn {
+    font-size: 1.2rem;
+  }
+}
+@include media-query($laptop) {
+  .header {
+    &__input {
+      font-size: 1.22rem;
+    }
+    &__iconSearch {
+      font-size: 0.9rem;
+    }
+    &__search {
+      margin-left: 5rem;
+      margin-right: auto;
+      flex: 0 0 60%;
+    }
+  }
+
+  .userInfo__name {
+    font-size: 1.16rem;
+  }
+
+  .login__btn {
+    font-size: 1.1rem;
+    margin-right: 0.3rem;
+  }
+  .singup__btn {
+    font-size: 1.1rem;
+  }
+}
+
+@include media-query($tablet) {
+  .header {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    &__search {
+      margin-left: 0;
+      margin-right: auto;
+      flex: 0 0 100%;
+      order: 5;
+    }
+  }
+  .userInfo {
+    margin-left: auto;
+  }
+  .logout__btn {
+    margin-left: 0.6rem;
+  }
+}

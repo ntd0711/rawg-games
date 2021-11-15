@@ -1,8 +1,8 @@
 import React from "react";
 import { Route, Switch, useRouteMatch } from "react-router";
-import { NotFound } from "../components";
-import DetailsPage from "./Games/pages/DetailsPage";
-import ListPages from "./Games/pages/ListPages";
+import { NotFound } from "../../components";
+import DetailsPage from "./pages/DetailsPage";
+import ListPages from "./pages/ListPages";
 
 const GamesFeatures = () => {
   const { url } = useRouteMatch();

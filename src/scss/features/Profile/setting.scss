@@ -1,0 +1,98 @@
+.setting {
+  &__btn {
+    margin-left: 3rem;
+    margin-top: 0.2rem;
+    font-size: 1.4rem;
+    padding: 0.4rem 1rem;
+    background-color: var(--color-white);
+    border-radius: 0.2rem;
+    &-link {
+      color: #000;
+      text-decoration: none;
+    }
+  }
+
+  &__btnIcon {
+    font-size: 1.8rem;
+    margin-top: 0.7rem;
+    margin-left: 2rem;
+    display: none;
+    :hover {
+      color: var(--color-grey);
+    }
+  }
+
+  &__container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  &__tabs {
+    display: flex;
+    justify-content: center;
+    &-item {
+      font-size: 1.5rem;
+      padding: 1rem;
+      margin-left: 0.4rem;
+      color: var(--color-grey);
+      cursor: pointer;
+      &.tab-active {
+        color: var(--color-white);
+        border-bottom: 2px solid var(--color-white);
+      }
+    }
+  }
+  &__tabPane {
+    display: none;
+    &.tabPane-active {
+      display: block;
+    }
+  }
+  &__tabContent {
+  }
+  &__changePassword.tabPane-active {
+    display: block;
+  }
+}
+
+.profile__tabContent {
+}
+
+.form__upload {
+  display: flex;
+  align-items: center;
+}
+
+.label__upload {
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 1.4rem;
+  color: var(--color-grey);
+  &:hover {
+    color: var(--color-white);
+  }
+}
+
+.img__upload {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+}
+
+@include media-query($desktop) {
+  .setting__btn {
+    font-size: 1.2rem;
+  }
+}
+
+@include media-query($laptop) {
+}
+
+@include media-query($tablet) {
+  .setting__btn {
+    display: none;
+  }
+  .setting__btnIcon {
+    display: block;
+  }
+}

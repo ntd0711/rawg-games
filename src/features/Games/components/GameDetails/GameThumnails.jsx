@@ -1,25 +1,31 @@
-import { createTheme } from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Box } from "@mui/system";
 import React from "react";
+import { AiFillLike, AiOutlinePlusCircle } from "react-icons/ai";
 
-const theme = createTheme();
-const useStyles = makeStyles({
-  image: {
-    width: "100%",
-    height: "300px",
-    backgroundPosition: "center",
-    backgroundSize: "cover",
-  },
-});
+const GameThumbnails = ({ image, toggleLike, liked }) => {
+  const handleToggleLike = () => {
+    if (toggleLike) toggleLike();
+  };
 
-const GameThumbnails = ({ image }) => {
-  const classes = useStyles();
   return (
-    <Box
-      className={classes.image}
-      sx={{ backgroundImage: `url(${image})` }}
-    ></Box>
+    <div className="gameDetails__card">
+      <div
+        className="gameDetails__thumbnails"
+        style={{ backgroundImage: `url(${image})` }}
+      ></div>
+      <div className="gameDetails__action">
+        <span
+          style={{ backgroundColor: liked ? "#0084ff" : "" }}
+          onClick={handleToggleLike}
+        >
+          <AiFillLike className="gameDetails__action-icon" />
+          Like
+        </span>
+        <span>
+          <AiOutlinePlusCircle className="gameDetails__action-icon" />
+          Collection
+        </span>
+      </div>
+    </div>
   );
 };
 

@@ -1,77 +1,76 @@
-import {
-  Card,
-  CardContent,
-  CardMedia,
-  createTheme,
-  Typography,
-} from "@mui/material";
-import { makeStyles } from "@mui/styles";
-import { Box } from "@mui/system";
 import React from "react";
-import { useHistory, useRouteMatch } from "react-router";
+import { AiFillLike } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 import { renderIcon } from "../../../../utils/index";
-
-const theme = createTheme();
-const useStyles = makeStyles({
-  card: {
-    minHeight: "320px",
-  },
-
-  cardMedia: {
-    width: "100%",
-    height: "150px",
-  },
-  icon: {
-    display: "inline-block",
-    marginRight: theme.spacing(1),
-  },
-  title: {
-    cursor: "pointer",
-    display: "inline-block",
-    "&:hover": {
-      color: theme.palette.primary.dark,
-    },
-  },
-});
+import { toggleLike } from "../../../Auth/usersThunks";
 
 const GameItem = ({ game }) => {
-  const classes = useStyles();
   const history = useHistory();
-  const { path } = useRouteMatch();
+  const dispatch = useDispatch();
+
+  const likes = useSelector((state) => state.users.users.likes);
+  const isAuthenticated = useSelector((state) => state.users.users.currentUser);
 
   const handleClick = () => {
     history.push({
-      pathname: `${path}/${game.slug}`,
+      pathname: `games/${game.slug}`,
     });
   };
 
+  if (!game) return "";
+  const { background_image, id, name, parent_platforms } = game;
+  const liked = likes[id];
+
+  const handleToggleLike = async () => {
+    try {
+      if (isAuthenticated) {
+        const action = toggleLike({ id, game: !liked ? game : null });
+
+        dispatch(action);
+      } else {
+        history.push("/signin");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <Card className={classes.card}>
-      <CardMedia
-        className={classes.cardMedia}
-        component="img"
-        //   height="140"
-        image={game.background_image}
-        alt="green iguana"
-      />
-      <CardContent>
-        <Box>
-          {game.parent_platforms.map((platform) => (
-            <Box key={platform.platform.id} className={classes.icon}>
-              {renderIcon(platform.platform.slug)}
-            </Box>
-          ))}
-        </Box>
-        <Typography
-          onClick={handleClick}
-          className={classes.title}
-          variant="h6"
-        >
-          {game.name}
-        </Typography>
-        <Typography variant="body2" color="text.secondary"></Typography>
-      </CardContent>
-    </Card>
+    <div className="cardGame">
+      <div
+        className="cardGame__thumbnail"
+        style={{ backgroundImage: `url(${background_image})` }}
+      ></div>
+      <div className="cardGame__info">
+        <div className="cardGame__infoTop">
+          <div className="cardGame__platform">
+            {parent_platforms.map(({ platform }) => {
+              const Icon = renderIcon(platform.slug);
+              return Icon ? (
+                <Icon
+                  key={platform.id}
+                  style={{ marginRight: "0.6rem" }}
+                  className="cardGame__platform-icon"
+                />
+              ) : null;
+            })}
+          </div>
+          <div className="cardGame__meta"></div>
+        </div>
+        <div className="cardGame__infoBottom">
+          <p onClick={handleClick} className="cardGame__name">
+            {name}
+          </p>
+          <p onClick={handleToggleLike}>
+            <AiFillLike
+              className="cardGame__like"
+              style={{ color: liked ? "#0084ff" : "" }}
+            />
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
 

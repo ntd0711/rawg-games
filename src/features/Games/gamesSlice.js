@@ -1,15 +1,10 @@
-import {
-  createAsyncThunk,
-  createSlice,
-  isRejectedWithValue,
-} from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import queryString from "query-string";
 import { gamesApi } from "../../api/gamesApi";
 import { genresApi } from "../../api/genresApi";
-import queryString from "query-string";
 
 export const getGameList = createAsyncThunk("gameList", async (payload) => {
   if (payload?.page === 1) return;
-
   try {
     const response = await gamesApi.getAll(payload);
     const { results } = response;
@@ -35,7 +30,6 @@ export const getGameDetails = createAsyncThunk("gameDetails", async (slug) => {
     const screenShots = await gamesApi.getScreenShots(slug);
     return { slug, data, screenShots };
   } catch (error) {
-    // return isRejectedWithValue(error.response);
     console.log(error);
   }
 });

@@ -1,25 +1,20 @@
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import React from "react";
 import { Link } from "react-router-dom";
 
 const GameListTag = ({ tags = [] }) => {
   return (
-    <Box>
-      <Typography sx={{ fontWeight: "700" }} variant="subtitle2">
-        Tags
-      </Typography>
-      {tags.map((tag) => (
-        <Typography key={tag.id} variant="body2">
-          <Link
-            style={{ color: "#000", textDecoration: "none" }}
-            to={`/games?tags=${tag.slug}`}
-          >
-            {tag.name}
-          </Link>
-        </Typography>
-      ))}
-    </Box>
+    <h3 sx={{ fontWeight: "700" }} className="gameSub__tags">
+      Tags
+      <div className="gameSub__tags-container">
+        {tags.map((tag) => (
+          <p className="gameSub__tags-item" key={tag.id}>
+            <Link className="gameSub__link" to={`/games?tags=${tag.slug}`}>
+              {tag.name}
+            </Link>
+          </p>
+        ))}
+      </div>
+    </h3>
   );
 };
 
