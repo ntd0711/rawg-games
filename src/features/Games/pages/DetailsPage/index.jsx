@@ -2,15 +2,14 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useRouteMatch } from "react-router";
+import { Loading, Overlay } from "../../../../components";
 import Footer from "../../../../components/Footer";
-import Loading from "../../../../components/Loading";
-import Overlay from "../../../../components/Overlay";
 import { toggleLike } from "../../../Auth/usersThunks";
 import GameImages from "../../components/GameDetails/GameImages";
 import GameInfo from "../../components/GameDetails/GameInfo";
 import GameListTag from "../../components/GameDetails/GameListTag";
 import GameThumbnails from "../../components/GameDetails/GameThumnails";
-import { getGameDetails } from "../../gamesSlice";
+import { getGameDetails } from "../../gamesThunks";
 
 const DetailsPage = () => {
   const dispatch = useDispatch();
@@ -39,7 +38,7 @@ const DetailsPage = () => {
   }, [slug, dispatch, gameInfo, screenShots]);
 
   if (!gameInfo) return <Loading />;
-  const { background_image, id, name, parent_platforms, tags } = gameInfo;
+  const { background_image, id, tags } = gameInfo;
 
   const liked = likes[id];
 
@@ -58,23 +57,25 @@ const DetailsPage = () => {
   };
 
   return (
-    <div className="main__gameDetails">
-      <Overlay />
-      <div className="gameDetails">
-        <GameThumbnails
-          liked={liked}
-          toggleLike={handleToggleLike}
-          image={background_image}
-        />
-        <GameInfo gameInfo={gameInfo} loading={loading} />
-      </div>
+    <>
+      <div className="main__gameDetails">
+        <Overlay />
+        <div className="gameDetails">
+          <GameThumbnails
+            liked={liked}
+            toggleLike={handleToggleLike}
+            image={background_image}
+          />
+          <GameInfo gameInfo={gameInfo} loading={loading} />
+        </div>
 
-      <div className="gameSub">
-        <GameImages screenShots={screenShots} loading={loading} />
-        <GameListTag tags={tags} loading={loading} />
+        <div className="gameSub">
+          <GameImages screenShots={screenShots} loading={loading} />
+          <GameListTag tags={tags} loading={loading} />
+        </div>
       </div>
       <Footer />
-    </div>
+    </>
   );
 };
 

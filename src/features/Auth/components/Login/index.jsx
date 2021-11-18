@@ -1,4 +1,3 @@
-import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router";
@@ -16,19 +15,12 @@ const Login = () => {
 
   const handleOnSubmit = async (formValues) => {
     try {
-      const response = await dispatch(logIn(formValues));
-      if (response.payload.hasOwnProperty("error")) {
-        setError(response.payload.error);
-      } else {
-        setError();
-        history.push("/");
-      }
-
-      unwrapResult(response);
+      await dispatch(logIn(formValues));
     } catch (error) {
       console.log(error);
+      setError("The account or password is invalid");
+      dispatch(setLoadingAuth(false));
     }
-    dispatch(setLoadingAuth(false));
   };
 
   return <LoginForm errorMessage={error} onSubmit={handleOnSubmit} />;

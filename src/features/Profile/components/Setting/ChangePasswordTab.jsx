@@ -13,27 +13,23 @@ const ChangePasswordTab = () => {
       setLoading(true);
       const error = await dispatch(changePassword(formValues));
 
-      if (error.payload) {
-        const [field, message] = error.payload.split("-");
-        // setError({ field, message });
-        alert(error.payload);
-      } else {
+      setError(error.payload);
+      if (!error.payload) {
         toast.dark("🦄 Update password successfully !", {
           position: "top-right",
           closeOnClick: true,
         });
-        setError();
       }
     } catch (error) {
       console.log(error);
     }
     setLoading(false);
   };
-
+  console.log(error);
   return (
     <ChangePasswordForm
       loading={loading}
-      otherError={error}
+      error={error}
       onSubmit={handleChangePassword}
     />
   );

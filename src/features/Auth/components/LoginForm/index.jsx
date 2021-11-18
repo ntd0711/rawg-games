@@ -1,11 +1,10 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import InputField from "../../../../components/InputField";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import LoadingAuth from "../../../../components/LoadingAuth";
+import { InputField, LoadingAuth } from "../../../../components";
 
 const LoginForm = ({ onSubmit, errorMessage }) => {
   const loadedAuth = useSelector((state) => state.users.users.loadedAuth);

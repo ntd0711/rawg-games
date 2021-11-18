@@ -1,11 +1,10 @@
 import React from "react";
+import { FiLogOut } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { logOut } from "../../features/Auth/usersThunks";
-import SearchForm from "../SearchForm";
-import { FiLogOut } from "react-icons/fi";
-import { IoGameControllerOutline } from "react-icons/io5";
 import Avatar from "../Avatar";
+import SearchForm from "../SearchForm";
 
 const Header = () => {
   const dispatch = useDispatch();
@@ -30,10 +29,8 @@ const Header = () => {
 
   return (
     <div className="header">
-      <span className="header__logo">
-        <Link className="link" to="/">
-          <IoGameControllerOutline />
-        </Link>
+      <span className="logo">
+        <Link to="/">RAWG</Link>
       </span>
       <div className="header__search">
         <SearchForm />
@@ -51,7 +48,7 @@ const Header = () => {
                   className="userInfo__avatar-text"
                   style={{ fontSize: "1.4rem" }}
                 >
-                  {username[0].toUpperCase()}
+                  {username && username[0].toUpperCase()}
                 </span>
               )}
             </div>

@@ -10,7 +10,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: ["authen/fulfilled"],
+        ignoredActions: ["authen/fulfilled", "logIn/fulfilled"],
       },
     }),
 });

@@ -1,27 +1,25 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getGenreList } from "../../gamesSlice";
+import { getGenreList } from "../../gamesThunks";
 import FilterTag from "./FilterTag";
 
 const FiltersGame = ({ filters, onChange }) => {
   const dispatch = useDispatch();
 
-  // const { data, error, isFetching } = useGetGenresListQuery();
-
-  // if (isFetching) return "loading...";
-
-  const genreList = useSelector((state) => state.games.genreList["genreList"]);
+  const genreList = useSelector((state) => state.games.genres["genreList"]);
+  // const loading = useSelector((state) => state.games.genres.loading);
 
   useEffect(() => {
+    if (genreList) return;
     (async () => {
       try {
         const action = getGenreList();
-        dispatch(action);
+        await dispatch(action);
       } catch (error) {
         console.log("failed to fetch genre list: ", error);
       }
     })();
-  }, [dispatch]);
+  }, [dispatch, genreList]);
 
   const handleTagsChange = (formValues) => {
     if (onChange) onChange(formValues);

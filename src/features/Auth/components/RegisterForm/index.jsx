@@ -1,13 +1,12 @@
 import React from "react";
-import InputField from "../../../../components/InputField";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import LoadingAuth from "../../../../components/LoadingAuth";
 import { useSelector } from "react-redux";
+import { LoadingAuth, InputField } from "../../../../components";
 
-const RegisterForm = ({ onSubmit }) => {
+const RegisterForm = ({ onSubmit, error }) => {
   const loadedAuth = useSelector((state) => state.users.users.loadedAuth);
 
   const schema = yup.object().shape({
@@ -43,6 +42,7 @@ const RegisterForm = ({ onSubmit }) => {
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} className="auth__form">
       <h2>SIGN UP</h2>
+      {error && <p className="account__error">{error}</p>}
       <InputField
         register={register}
         formState={formState}

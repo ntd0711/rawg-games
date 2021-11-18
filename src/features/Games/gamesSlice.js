@@ -1,62 +1,23 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import queryString from "query-string";
-import { gamesApi } from "../../api/gamesApi";
-import { genresApi } from "../../api/genresApi";
-
-export const getGameList = createAsyncThunk("gameList", async (payload) => {
-  if (payload?.page === 1) return;
-  try {
-    const response = await gamesApi.getAll(payload);
-    const { results } = response;
-
-    const page = payload?.page || 1;
-    if (payload?.page) delete payload?.page;
-    const params = queryString.stringify(payload);
-
-    return {
-      params,
-      results,
-      page,
-    };
-  } catch (error) {
-    // return isRejectedWithValue(error.response);
-    console.log(error);
-  }
-});
-
-export const getGameDetails = createAsyncThunk("gameDetails", async (slug) => {
-  try {
-    const data = await gamesApi.getById(slug);
-    const screenShots = await gamesApi.getScreenShots(slug);
-    return { slug, data, screenShots };
-  } catch (error) {
-    console.log(error);
-  }
-});
-
-export const getGenreList = createAsyncThunk("genreList", async () => {
-  const response = await genresApi.getAll();
-
-  const { results } = response;
-
-  return {
-    params: "genreList",
-    results,
-  };
-});
+import { createSlice } from "@reduxjs/toolkit";
+import { getGameDetails, getGameList, getGenreList } from "./gamesThunks";
 
 const gamesSlice = createSlice({
   name: "games",
   initialState: {
     gameList: { loading: false },
     gameDetails: { loading: false },
-    genreList: {},
+    genres: { loading: false },
   },
-  reducers: {},
+  reducers: {
+    addToGameList(state, action) {
+      console.log({ state, action });
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getGameList.pending, (state, action) => {
       state.gameList.loading = true;
     });
+
     builder.addCase(getGameList.fulfilled, (state, action) => {
       if (!action) return;
       const { gameList } = state;
@@ -78,19 +39,31 @@ const gamesSlice = createSlice({
 
       gameList.loading = false;
     });
+
     builder.addCase(getGameList.rejected, (state, action) => {
       state.gameList.loading = false;
       console.log(action.payload);
     });
 
     // ==========================================================================
-    builder.addCase(getGenreList.fulfilled, (state, action) => {
-      const { genreList } = state;
-      const name = action?.payload?.params;
-      const value = action?.payload?.results;
-      genreList[name] = value;
+    builder.addCase(getGenreList.pending, (state, action) => {
+      state.genres.loading = true;
     });
 
+    builder.addCase(getGenreList.fulfilled, (state, action) => {
+      const { genres } = state;
+      const name = action?.payload?.params;
+      const value = action?.payload?.results;
+      genres[name] = value;
+
+      state.genres.loading = false;
+    });
+
+    builder.addCase(getGenreList.rejected, (state, action) => {
+      state.genres.loading = false;
+    });
+
+    // ==================================================================
     builder.addCase(getGameDetails.pending, (state, action) => {
       state.gameDetails.loading = true;
     });
@@ -103,6 +76,7 @@ const gamesSlice = createSlice({
 
       state.gameDetails.loading = false;
     });
+
     builder.addCase(getGameDetails.rejected, (state, action) => {
       state.gameDetails.loading = false;
       console.log(action.payload);
@@ -110,6 +84,7 @@ const gamesSlice = createSlice({
   },
 });
 
-const { reducer } = gamesSlice;
+const { reducer, actions } = gamesSlice;
 
+export const { addToGameList } = actions;
 export default reducer;

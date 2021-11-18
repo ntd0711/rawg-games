@@ -1,14 +1,16 @@
+.logo {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 5px;
+  color: var(--color-white);
+}
 .header {
   height: 10rem;
   display: flex;
   align-items: center;
   position: relative;
   z-index: 2;
-  &__logo {
-    font-size: 3.8rem;
-    margin-top: 0.8rem;
-    font-weight: 300;
-  }
+
   &__search {
     margin-left: 5rem;
     margin-right: auto;
@@ -35,15 +37,16 @@
     font-size: 1.2rem;
     color: var(--color-grey);
   }
+  &__register {
+    font-size: 1.3rem;
+    font-weight: 600;
+  }
 }
 
 .login__btn {
-  font-size: 1.4rem;
-  padding: 0.5rem;
-  margin-right: 0.5rem;
+  margin-right: 2rem;
 }
 .singup__btn {
-  font-size: 1.4rem;
 }
 .logout__btn {
   font-size: 1.9rem;
@@ -55,11 +58,10 @@
   }
 }
 
-.link {
-  color: #fff;
-  text-decoration: none;
-  padding: 0.5rem;
-}
+// .link {
+//   color: #fff;
+//   text-decoration: none;
+// }
 
 .userInfo {
   display: flex;
@@ -94,6 +96,9 @@
 
 @include media-query($desktop) {
   .header {
+    &__logo {
+      font-size: 1.8rem;
+    }
     &__input {
       font-size: 1.33rem;
     }
@@ -105,17 +110,12 @@
       margin-right: auto;
       flex: 0 0 60%;
     }
+    &__register {
+      font-size: 1.2rem;
+    }
   }
   .userInfo__name {
     font-size: 1.16rem;
-  }
-
-  .login__btn {
-    font-size: 1.2rem;
-    margin-right: 0.4rem;
-  }
-  .singup__btn {
-    font-size: 1.2rem;
   }
 }
 @include media-query($laptop) {
@@ -131,23 +131,21 @@
       margin-right: auto;
       flex: 0 0 60%;
     }
+    &__register {
+      font-size: 1.1rem;
+    }
   }
 
   .userInfo__name {
     font-size: 1.16rem;
   }
-
-  .login__btn {
-    font-size: 1.1rem;
-    margin-right: 0.3rem;
-  }
-  .singup__btn {
-    font-size: 1.1rem;
-  }
 }
 
 @include media-query($tablet) {
   .header {
+    &__logo {
+      font-size: 1.6rem;
+    }
     flex-wrap: wrap;
     justify-content: space-between;
     &__search {
@@ -162,5 +160,10 @@
   }
   .logout__btn {
     margin-left: 0.6rem;
+  }
+
+  .login__btn {
+    font-size: 1.1rem;
+    margin-right: 1.2rem;
   }
 }

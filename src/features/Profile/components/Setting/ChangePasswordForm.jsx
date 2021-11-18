@@ -3,9 +3,9 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import InputField from "../../../../components/InputField";
-import LoadingAuth from "../../../../components/LoadingAuth";
+import { LoadingAuth } from "../../../../components";
 
-const ChangePasswordForm = ({ onSubmit, loading, otherError }) => {
+const ChangePasswordForm = ({ onSubmit, loading, error }) => {
   const schema = yup.object().shape({
     currentPassword: yup
       .string()
@@ -21,7 +21,7 @@ const ChangePasswordForm = ({ onSubmit, loading, otherError }) => {
       .oneOf([yup.ref("newPassword")], "Password does not match"),
   });
 
-  const { handleSubmit, register, formState, setError } = useForm({
+  const { handleSubmit, register, formState } = useForm({
     defaultValues: {
       currentPassword: "",
       newPassword: "",
@@ -37,13 +37,13 @@ const ChangePasswordForm = ({ onSubmit, loading, otherError }) => {
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} className="auth__form">
       <h2>Change Password</h2>
+      {error && <p className="account__error">{error}</p>}
       <InputField
         register={register}
         formState={formState}
         name="currentPassword"
         label="Current Password"
         type="password"
-        otherError={otherError}
       />
 
       <InputField

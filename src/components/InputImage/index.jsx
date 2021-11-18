@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const InputImage = ({ name, register, formState }) => {
-  const { errors } = formState;
-
+const InputImage = ({ name, register }) => {
   const [avatarUrl, setAvatarUrl] = useState();
 
   useEffect(() => {

@@ -1,3 +1,11 @@
 export { default as Header } from "./Header";
 export { default as Footer } from "./Footer";
 export { default as NotFound } from "./NotFound";
+export { default as Avatar } from "./Avatar";
+export { default as Chip } from "./Chip";
+export { default as InputField } from "./InputField";
+export { default as InputImage } from "./InputImage";
+export { default as Loading } from "./Loading";
+export { default as LoadingAuth } from "./LoadingAuth";
+export { default as Overlay } from "./Overlay";
+export { default as SearchForm } from "./SearchForm";

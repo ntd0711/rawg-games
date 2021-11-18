@@ -14,13 +14,8 @@ export const logIn = createAsyncThunk(
   "logIn",
   async ({ email, password }, thunkApi) => {
     thunkApi.dispatch(setLoadingAuth(true));
-    try {
-      return await firebase.auth.signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      return {
-        error: "account don't exist",
-      };
-    }
+    await firebase.auth.signInWithEmailAndPassword(email, password);
+    thunkApi.dispatch(setLoadingAuth(false));
   }
 );
 
@@ -85,7 +80,6 @@ export const fetchUserLikes = createAsyncThunk(
     } catch (error) {
       console.log(error);
     }
-    // thunkApi.dispatch(setLoadingAuth())
   }
 );
 
@@ -151,7 +145,7 @@ export const changePassword = createAsyncThunk(
       }
     } catch (err) {
       if (err.code === "auth/wrong-password") {
-        return "currentPassword-Wrong password";
+        return "Enter a valid current password and try again.";
       }
       return "error-Something went wrong";
     }
@@ -180,11 +174,12 @@ export const updateUser = createAsyncThunk(
           .doc(username)
           .get();
         if (usernameExisted.data()) {
-          return "username-The username is already in use by another account.";
+          return "The username is already in use by another account.";
         }
       }
 
-      if (photo) {
+      if (photo[0]) {
+        console.log("has photo");
         //upload image to storage
         await storageRef.child(uid).put(photo[0]);
         //get image url

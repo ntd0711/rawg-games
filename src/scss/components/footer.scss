@@ -1,0 +1,38 @@
+.footer {
+  display: flex;
+  position: relative;
+  width: 100%;
+
+  justify-content: space-between;
+  align-items: center;
+
+  z-index: 3;
+  margin-top: 18rem;
+  margin-bottom: 4rem;
+
+  &__text {
+    font-size: 1.5rem;
+    font-weight: 500;
+  }
+  &__icons {
+    margin-right: -1.2rem;
+    & svg {
+      width: 4rem;
+      height: 4rem;
+
+      padding: 0.9rem;
+      margin-right: 1.2rem;
+
+      color: var(--color-white);
+      border-radius: 10px;
+      border: 1px solid #606060;
+
+      transition: all 0.3s;
+      cursor: pointer;
+      &:hover {
+        color: var(--color-white);
+        background-color: var(--color-blue);
+      }
+    }
+  }
+}

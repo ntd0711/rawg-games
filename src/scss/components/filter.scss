@@ -22,6 +22,9 @@
 }
 
 @include media-query($tablet) {
+  .chip {
+    display: block;
+  }
   .genres {
     margin-bottom: 2rem;
     &__expanded {
@@ -30,6 +33,9 @@
     }
     &__chips {
       display: none;
+      &-expanded {
+        display: block;
+      }
     }
     &__current {
       font-size: 1.2rem;

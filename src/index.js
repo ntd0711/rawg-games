@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import { store } from "./app/store";
 import { Provider } from "react-redux";
 import { ToastContainer } from "react-toastify";
@@ -12,12 +12,12 @@ import "react-toastify/dist/ReactToastify.css";
 
 ReactDOM.render(
   <Provider store={store}>
-    <Router>
+    <BrowserRouter>
       <React.StrictMode>
         <App />
         <ToastContainer style={{ fontSize: "1.4rem" }} />
       </React.StrictMode>
-    </Router>
+    </BrowserRouter>
   </Provider>,
   document.getElementById("root")
 );

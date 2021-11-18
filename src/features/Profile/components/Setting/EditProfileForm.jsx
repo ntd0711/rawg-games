@@ -3,11 +3,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
 import * as yup from "yup";
+import { LoadingAuth } from "../../../../components";
 import InputField from "../../../../components/InputField";
 import InputImage from "../../../../components/InputImage";
-import LoadingAuth from "../../../../components/LoadingAuth";
 
-const EditProfileForm = ({ onSubmit, loading }) => {
+const EditProfileForm = ({ onSubmit, loading, error }) => {
   const username = useSelector(
     (state) => state.users.users.currentUser?.displayName
   );
@@ -34,6 +34,7 @@ const EditProfileForm = ({ onSubmit, loading }) => {
   return (
     <form onSubmit={handleSubmit(handleOnSubmit)} className="auth__form">
       <h2>Profile</h2>
+      {error && <p className="account__error">{error}</p>}
       <InputImage
         name="photo"
         register={register}

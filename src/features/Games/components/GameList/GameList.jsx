@@ -1,38 +1,24 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import Loading from "../../../../components/Loading";
-import useGetCurrPageByParams from "../../../../hooks/useGetCurrPageByParams";
-import useGetGameList from "../../../../hooks/useGetGameList";
+import React, { useCallback, useRef } from "react";
+import { Loading } from "../../../../components";
 import GameItem from "./GameItem";
 
-const GameList = ({ gameList, queryParams, loading }) => {
-  const currentPage = useGetCurrPageByParams(queryParams) || 1;
-
-  const [pageNumber, setPageNumber] = useState(currentPage);
-
-  useEffect(() => {
-    // const searchParams = queryString.stringify(queryParams)
-    setPageNumber(currentPage);
-  }, [queryParams, currentPage]);
-
-  useGetGameList(queryParams, pageNumber);
-
+const GameList = ({ gameList, onLoadMore, loadMore }) => {
   const observer = useRef();
+
   const lastGameElementRef = useCallback(
     (node) => {
-      if (loading) return;
+      if (loadMore) return;
       if (observer.current) observer.current.disconnect();
       observer.current = new IntersectionObserver((entries) => {
         if (entries[0].isIntersecting) {
-          setPageNumber((prev) => prev + 1);
-          console.log("visible");
+          if (onLoadMore) onLoadMore();
         }
       });
       if (node) observer.current.observe(node);
     },
-    [loading]
+    [loadMore, onLoadMore]
   );
 
-  if (!gameList) return <Loading position="top" />;
   return (
     <div>
       <div className="gameContainer">
@@ -51,7 +37,7 @@ const GameList = ({ gameList, queryParams, loading }) => {
             );
           }
         })}
-        {loading && <Loading position="bottom" />}
+        {loadMore && <Loading position="bottom" />}
       </div>
     </div>
   );

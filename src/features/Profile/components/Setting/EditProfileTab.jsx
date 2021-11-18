@@ -1,4 +1,3 @@
-import { unwrapResult } from "@reduxjs/toolkit";
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
@@ -11,19 +10,18 @@ const EditProfileTab = () => {
     (state) => state.users.users.currentUser?.displayName
   );
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState();
 
   const handleRename = async (formValues) => {
     const { username, photo } = formValues;
-    console.log({ photo: photo.length, username });
     if (photo.length === 0 && displayName === username) return;
+
     try {
       setLoading(true);
       const error = await dispatch(updateUser(formValues));
+      setError(error.payload);
 
-      console.log(error);
-      if (error.payload) {
-        alert(error.payload);
-      } else {
+      if (!error.payload) {
         toast.dark("🦄 Update profile successfully !", {
           position: "top-right",
           closeOnClick: true,
@@ -35,7 +33,9 @@ const EditProfileTab = () => {
     setLoading(false);
   };
 
-  return <EditProfileForm onSubmit={handleRename} loading={loading} />;
+  return (
+    <EditProfileForm onSubmit={handleRename} error={error} loading={loading} />
+  );
 };
 
 export default EditProfileTab;

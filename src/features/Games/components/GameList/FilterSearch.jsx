@@ -1,5 +1,5 @@
 import React from "react";
-import SearchForm from "./SearchForm";
+import { SearchForm } from "../../../../components";
 
 const FilterSearch = ({ onSubmit }) => {
   return <SearchForm onSubmit={onSubmit} />;
