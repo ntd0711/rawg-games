@@ -36,3 +36,32 @@
     }
   }
 }
+
+@include media-query($desktop) {
+  .footer {
+    &__text {
+      font-size: 1.4rem;
+    }
+    &__icons {
+      & svg {
+        width: 3.8rem;
+        height: 3.8rem;
+      }
+    }
+  }
+}
+@include media-query($tablet) {
+  .footer {
+    flex-direction: column;
+    row-gap: 1rem;
+    &__text {
+      font-size: 1.2rem;
+    }
+    &__icons {
+      & svg {
+        width: 3.6rem;
+        height: 3.6rem;
+      }
+    }
+  }
+}

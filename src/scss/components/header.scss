@@ -142,10 +142,10 @@
 }
 
 @include media-query($tablet) {
+  .logo {
+    font-size: 1.8rem;
+  }
   .header {
-    &__logo {
-      font-size: 1.6rem;
-    }
     flex-wrap: wrap;
     justify-content: space-between;
     &__search {
