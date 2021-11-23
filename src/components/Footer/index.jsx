@@ -11,15 +11,20 @@ const Footer = () => {
       </span>
       <p className="footer__text">2021 © RAWG, Behind The Games</p>
       <p className="footer__icons">
-        <Link>
+        <a
+          href="https://twitter.com/rawgtheworld"
+          target="_blank"
+          rel="noreferrer"
+        >
           <AiOutlineTwitter />
-        </Link>
-        <Link>
-          <AiFillInstagram />
-        </Link>
-        <Link>
+        </a>
+        <a
+          href="https://discord.com/invite/erNybDp"
+          target="_blank"
+          rel="noreferrer"
+        >
           <FaDiscord />
-        </Link>
+        </a>
       </p>
     </div>
   );
