@@ -9,3 +9,4 @@ export { default as Loading } from "./Loading";
 export { default as LoadingAuth } from "./LoadingAuth";
 export { default as Overlay } from "./Overlay";
 export { default as SearchForm } from "./SearchForm";
+export { default as PrivateRoute } from "./PrivateRoute";

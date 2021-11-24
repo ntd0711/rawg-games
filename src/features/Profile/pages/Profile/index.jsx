@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { useRouteMatch } from "react-router";
 import ProfileInfo from "../../components/Profile/ProfileInfo";
 import ProfileTabs from "../../components/Profile/ProfileTabs";
-
+import { NotFound } from "../../../../components";
 const Profile = () => {
   const {
     params: { username },
@@ -16,7 +16,7 @@ const Profile = () => {
 
   return (
     <>
-      {/* {!userInfo && <NotFound />} */}
+      {!userInfo && <NotFound />}
       {userInfo && (
         <div className="profile">
           <div className="profile__user">

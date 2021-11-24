@@ -46,11 +46,10 @@ const ListPages = () => {
       }
     })();
   }, [queryParams, dispatch, gameList]);
-  console.log(`game on page ${pageNumber}`);
+
   // Load more games
   useEffect(() => {
     if (pageNumber === 1 || currentPage === pageNumber) return;
-    console.log(`load more game page ${pageNumber}`);
     (async () => {
       setLoadMore(true);
       try {

@@ -136,8 +136,11 @@
     }
   }
 
-  .userInfo__name {
-    font-size: 1.16rem;
+  .userInfo {
+    margin-left: 1rem;
+    &__name {
+      font-size: 1.16rem;
+    }
   }
 }
 
