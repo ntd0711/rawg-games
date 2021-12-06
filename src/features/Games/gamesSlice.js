@@ -60,7 +60,7 @@ const gamesSlice = createSlice({
     });
 
     builder.addCase(getGenreList.rejected, (state, action) => {
-      state.genres.loading = false;
+      // state.genres.loading = false;
     });
 
     // ==================================================================

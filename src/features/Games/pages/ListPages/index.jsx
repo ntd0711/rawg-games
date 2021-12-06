@@ -71,7 +71,6 @@ const ListPages = () => {
 
   const handleLoadMore = () => {
     setPageNumber((prev) => prev + 1);
-    console.log("visible");
   };
 
   if (loadingGenres) return <Loading />;
