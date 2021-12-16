@@ -30,6 +30,9 @@
 
 .switch__form-link {
   color: var(--color-white);
+  &:hover {
+    text-decoration: underline;
+  }
 }
 .loading__auth {
   margin-top: 0.4rem;
