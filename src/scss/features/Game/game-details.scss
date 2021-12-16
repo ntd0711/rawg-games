@@ -7,11 +7,17 @@
 .gameDetails {
   display: grid;
   grid-template-columns: 400px auto;
-  grid-template-rows: 300px;
+  // grid-template-rows: 300px;
+  grid-template-rows: 1fr;
   justify-content: center;
   column-gap: 3rem;
   position: relative;
   z-index: 1;
+
+  &__card {
+    max-height: 300px;
+  }
+
   &__title {
     font-size: 3.4rem;
     font-weight: 400;
@@ -167,8 +173,11 @@
   }
   .gameDetails {
     column-gap: 2.5rem;
-    grid-template-columns: 360px auto;
-    grid-template-rows: 280px;
+    grid-template-columns: 36rem auto;
+
+    &__card {
+      max-height: 28rem;
+    }
 
     &__action > span {
       font-size: 1.23rem;
@@ -224,7 +233,10 @@
   .gameDetails {
     column-gap: 2.5rem;
     grid-template-columns: 32rem auto;
-    grid-template-rows: 24rem;
+
+    &__card {
+      max-height: 24rem;
+    }
 
     &__action > span {
       font-size: 1.12rem;
@@ -288,7 +300,7 @@
   .gameDetails {
     margin-top: 2rem;
     grid-template-columns: 1fr;
-    grid-template-rows: 22rem auto;
+    grid-template-rows: 22rem 1fr;
     row-gap: 2rem;
 
     &__title {
