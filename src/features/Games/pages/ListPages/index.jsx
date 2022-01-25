@@ -37,7 +37,6 @@ const ListPages = () => {
   useEffect(() => {
     if (gameList) return;
     (async () => {
-      console.log("fetch");
       try {
         const action = getGameList(queryParams);
         await dispatch(action);

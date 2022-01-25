@@ -14,11 +14,13 @@ const Login = () => {
   if (currentUser) history.push("/");
 
   const handleOnSubmit = async (formValues) => {
+    dispatch(setLoadingAuth(true));
     try {
-      await dispatch(logIn(formValues));
+      const response = await dispatch(logIn(formValues));
+      if (response.error) setError("The account or password is invalid");
     } catch (error) {
       console.log(error);
-      setError("The account or password is invalid");
+    } finally {
       dispatch(setLoadingAuth(false));
     }
   };

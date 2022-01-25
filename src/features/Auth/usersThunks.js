@@ -1,44 +1,38 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import firebase from "../../firebase";
+
 import {
   clearUser,
   loginSuccess,
-  setLoadingAuth,
   updateUsername,
   updateUserLiked,
   userToggleLike,
   updateUserProfileSuccess,
 } from "./usersSlice";
 
-export const logIn = createAsyncThunk(
-  "logIn",
-  async ({ email, password }, thunkApi) => {
-    thunkApi.dispatch(setLoadingAuth(true));
-    await firebase.auth.signInWithEmailAndPassword(email, password);
-    thunkApi.dispatch(setLoadingAuth(false));
-  }
-);
+export const logIn = createAsyncThunk("logIn", async ({ email, password }) => {
+  await firebase.auth.signInWithEmailAndPassword(email, password);
+});
 
 export const signUp = createAsyncThunk(
   "signUp",
   async ({ username, email, password }, thunkApi) => {
     try {
-      thunkApi.dispatch(setLoadingAuth(true));
-      //email existed
-      const emailExisted = await firebase.auth.fetchSignInMethodsForEmail(
-        email
-      );
-      if (emailExisted && emailExisted.length > 0) {
-        return "email-The email address is already in use by another account.";
-      }
-
       //username existed
       const usernameExisted = await firebase.db
         .collection("users")
         .doc(username)
         .get();
       if (usernameExisted.data()) {
-        return "username-The username is already in use by another account.";
+        return "The username is already in use by another account.";
+      }
+
+      //email existed
+      const emailExisted = await firebase.auth.fetchSignInMethodsForEmail(
+        email
+      );
+      if (emailExisted && emailExisted.length > 0) {
+        return "The email address is already in use by another account.";
       }
 
       //create user
@@ -62,7 +56,6 @@ export const signUp = createAsyncThunk(
     } catch (error) {
       console.log(error);
     }
-    thunkApi.dispatch(setLoadingAuth(false));
   }
 );
 
