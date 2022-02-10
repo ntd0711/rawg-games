@@ -10,10 +10,11 @@ const Login = () => {
   const history = useHistory();
   const [error, setError] = useState();
 
-  const { currentUser } = useSelector((state) => state.users.users);
+  const { currentUser, loadedAuth } = useSelector((state) => state.users.users);
   if (currentUser) history.push("/");
 
   const handleOnSubmit = async (formValues) => {
+    if (loadedAuth) return;
     dispatch(setLoadingAuth(true));
     try {
       const response = await dispatch(logIn(formValues));
